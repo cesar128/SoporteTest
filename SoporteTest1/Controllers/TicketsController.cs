@@ -20,14 +20,28 @@ namespace SoporteTest1.Controllers
         // GET: Tickets
         public ActionResult Index()
         {
-            object tickets = null;
+            List<Ticket> tickets = null;
 
             if (Request.IsAuthenticated)
             {
                 var uid = User.Identity.GetUserId();
-                tickets = db.Tickets.Where(t => t.OwnerID == uid).Include(t => t.AspNetUser).Include(t => t.AspNetUser1).Include(t => t.DepartamentoTI).Include(t => t.Estatu);
+                //tickets = db.Tickets.Where(t => t.OwnerID == uid).Include(t => t.AspNetUser).Include(t => t.AspNetUser1).Include(t => t.DepartamentoTI).Include(t => t.Estatu);
+
+                tickets = db.Tickets.Where(a => a.OwnerID == uid).ToList();
+                var p = db.FollowTables.Where(a => a.Who == uid);
+                foreach (var item in p)
+                {
+                    var mylist = db.Tickets.Where(a => a.OwnerID == item.Follow);
+                    foreach (var u in mylist)
+                    {
+                        tickets.Add(u);
+                    }
+                }
+
+                
             } else {
-                tickets = db.Tickets.Include(t => t.AspNetUser).Include(t => t.AspNetUser1).Include(t => t.DepartamentoTI).Include(t => t.Estatu);
+                //tickets = db.Tickets.Include(t => t.AspNetUser).Include(t => t.AspNetUser1).Include(t => t.DepartamentoTI).Include(t => t.Estatu);
+                tickets = db.Tickets.ToList();
             }
 
 
