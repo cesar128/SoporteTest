@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Rep";
+}
+
+<h2>Rep</h2>
+
+<canvas id="skills" width="300" height="300"></canvas>
+<script type="text/javascript" src="/content/chart.js"></script>
+
+<script type="text/javascript">
+	    var pieData = [
+	   {
+	       value: @ViewBag.EnProceso,
+	       label: 'En proceso',
+	       color: '#ffff99'
+	   },
+	   {
+	       value: @ViewBag.Pendientes,
+	       label: 'Pendientes',
+	       color: '#cc3300'
+	   },
+	   {
+	       value: @ViewBag.Cerrados,
+	       label: 'Cerrados',
+	       color: '#339933'
+	   }
+	    ];
+	    var context = document.getElementById('skills').getContext('2d');
+	    var skillsChart = new Chart(context).Pie(pieData);
+</script>
+
+<table>
+    <thead>
+        <tr>
+            <td>Color:</td>
+            <td>Estado:</td>
+            <td>Cantidad:</td>
+        </tr>
+    </thead>
+    <tr>
+        <td style="background-color:#cc3300;">&nbsp;&nbsp;&nbsp;</td>
+        <td>Pendientes:</td>
+        <td>@ViewBag.Pendientes</td>
+    </tr>
+    <tr>
+        <td style="background-color:#ffff99;">&nbsp;&nbsp;&nbsp;</td>
+        <td>En Proceso:</td>
+        <td>@ViewBag.EnProceso</td>
+    </tr>
+    <tr>
+        <td style="background-color:#339933;">&nbsp;&nbsp;&nbsp;</td>
+        <td>Cerrados:</td>
+        <td>@ViewBag.Cerrados</td>
+    </tr>
+</table>
