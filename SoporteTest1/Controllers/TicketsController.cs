@@ -145,7 +145,14 @@ namespace SoporteTest1.Controllers
             ViewBag.OwnerID = new SelectList(db.AspNetUsers, "Id", "Email", ticket.OwnerID);
             ViewBag.DepartamentoPertenece = new SelectList(db.DepartamentoTIs, "Id", "DeptoTI", ticket.DepartamentoPertenece);
             ViewBag.Estatus_ID = new SelectList(db.Estatus, "Id", "Estado", ticket.Estatus_ID);
-            return View(ticket);
+
+            //Si no es dueno del ticket o admin, no puede editarlo, redirigir a Details del mismo ticket
+            if (ticket.OwnerID == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                return View(ticket);
+            }
+            else return RedirectToAction("Details", new { id = id.ToString() });
+
         }
 
         // POST: Tickets/Edit/5

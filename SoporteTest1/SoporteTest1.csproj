@@ -220,6 +220,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Departamento.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -363,6 +364,11 @@
     <Content Include="Views\Follow\Details.cshtml" />
     <Content Include="Views\Follow\Edit.cshtml" />
     <Content Include="Views\Follow\Index.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
