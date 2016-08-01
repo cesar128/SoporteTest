@@ -21,12 +21,21 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Registrar usuario", "Register", "Account")</li>
-                    <li>@Html.ActionLink("Departamentos", "Index", "Departamentos")</li>
-                    <li>@Html.ActionLink("TI", "Index", "DeptoTI")</li>
-                    <li>@Html.ActionLink("Estatus", "Index", "Estatus")</li>
-                    <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu admin<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Registrar usuario", "Register", "Account")</li>
+                                <li>@Html.ActionLink("Departamentos", "Index", "Departamentos")</li>
+                                <li>@Html.ActionLink("TI", "Index", "DeptoTI")</li>
+                                <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                                
+                            </ul>
+                        </li>
+                    }
                     <li>@Html.ActionLink("TIckets", "Index", "Tickets")</li>
+                    <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
                     <li>@Html.ActionLink("Estadisticas", "Rep", "Tickets")</li>
 
                 </ul>

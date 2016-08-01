@@ -24,7 +24,7 @@ namespace SoporteTest1
         public string OwnerID { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
-        public System.DateTime Date_added { get; set; }
+        public Nullable<System.DateTime> Date_added { get; set; }
         public Nullable<System.DateTime> Date_solved { get; set; }
         public string Asig_id { get; set; }
         public int Estatus_ID { get; set; }

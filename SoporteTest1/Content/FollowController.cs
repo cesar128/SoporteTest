@@ -37,7 +37,7 @@ namespace SoporteTest1.Content
         }
 
         // GET: Follow/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             ViewBag.Follow = new SelectList(db.AspNetUsers, "Id", "Email");
             ViewBag.Who = new SelectList(db.AspNetUsers, "Id", "Email");

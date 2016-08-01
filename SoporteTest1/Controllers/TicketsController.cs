@@ -10,6 +10,7 @@ using SoporteTest1;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using System.Text;
+using System.Data.Entity.Validation;
 
 namespace SoporteTest1.Controllers
 {
@@ -95,26 +96,30 @@ namespace SoporteTest1.Controllers
 
                 if (Request.Files.Count > 0)
                 {
-                    var file = Request.Files[0];
+                    int i = 0;
+                    foreach(var fi in Request.Files) {
 
-                    if (file != null && file.ContentLength > 0)
-                    {
+                        var file = Request.Files[i];
+                        if (file != null && file.ContentLength > 0)
+                        {
 
-                        var fileName = Path.GetFileName(file.FileName);
-                        StringBuilder sb = new StringBuilder();
-                        sb.Append(dummy);
-                        sb.Append(fileName);
-                        var finalname = sb;
-                        var path = Path.Combine(Server.MapPath("~/Content/Uploads/"), finalname.ToString());
-                        file.SaveAs(path);
+                            var fileName = Path.GetFileName(file.FileName);
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append(dummy);
+                            sb.Append(fileName);
+                            var finalname = sb;
+                            var path = Path.Combine(Server.MapPath("~/Content/Uploads/"), finalname.ToString());
+                            file.SaveAs(path);
 
-                        Archivo arc = new Archivo();
-                        arc.Filename = finalname.ToString();
-                        arc.TicketId = ticket.Id;
-                        db.Archivos.Add(arc);
-                        db.SaveChanges();
+                            Archivo arc = new Archivo();
+                            arc.Filename = finalname.ToString();
+                            arc.TicketId = ticket.Id;
+                            db.Archivos.Add(arc);
+                            db.SaveChanges();
 
 
+                        }
+                        i++;
                     }
                 }
 
@@ -165,9 +170,30 @@ namespace SoporteTest1.Controllers
         {
             if (ModelState.IsValid)
             {
-                ticket.Date_added = System.DateTime.Now;
-                db.Entry(ticket).State = EntityState.Modified;
-                db.SaveChanges();
+
+                try
+                {
+                    //ticket.Date_added = System.DateTime.Now;
+                    DateTime dt = Convert.ToDateTime(ticket.Date_added);
+                    ticket.Date_added = null;
+                    db.Entry(ticket).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
                 return RedirectToAction("Index");
             }
             ViewBag.Asig_id = new SelectList(db.AspNetUsers, "Id", "Email", ticket.Asig_id);

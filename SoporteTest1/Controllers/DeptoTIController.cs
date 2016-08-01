@@ -25,13 +25,13 @@ namespace SoporteTest1.Controllers
                //siempre y cuando no sea administrador, que ahi se muestran todos igual
                //con la posibilidad de editarlos...
 
-                if (!User.IsInRole("Admin"))
+                if (User.IsInRole("Admin"))
                 {
                     return View(db.DepartamentoTIs.ToList());
                 }
-                else return RedirectToRoute("Tickets");
+                else return RedirectToRoute("Index","Tickets");
             }
-            else return RedirectToRoute("Tickets");
+            else return RedirectToRoute("Index", "Tickets");
 
         }
 

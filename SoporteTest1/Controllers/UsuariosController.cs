@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SoporteTest1;
+using Microsoft.AspNet.Identity;
 
 namespace SoporteTest1.Controllers
 {
@@ -17,8 +18,13 @@ namespace SoporteTest1.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            var aspNetUsers = db.AspNetUsers.Include(a => a.Departamento);
-            return View(aspNetUsers.ToList());
+            var aspNetUserss = db.AspNetUsers.Include(a => a.Departamento).ToList();
+
+            //var hi = db.FollowTables.Where(a => a.Who == User.Identity.Name).Select(a => a.Follow).ToList();
+            var uid = User.Identity.GetUserId();
+            ViewBag.Following = db.FollowTables.Where(a => a.Who == uid ).Select(a=>a.Follow).ToList();
+
+            return View(aspNetUserss);
         }
 
         // GET: Usuarios/Details/5
