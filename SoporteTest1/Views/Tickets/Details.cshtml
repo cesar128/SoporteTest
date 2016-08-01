@@ -75,6 +75,10 @@
         </dd>
 
     </dl>
+
+    @if(Model.Archivos.Count > 0) {
+        <span> Hay archivos!!</span>
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

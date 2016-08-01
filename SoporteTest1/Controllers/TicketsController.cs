@@ -8,7 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using SoporteTest1;
 using Microsoft.AspNet.Identity;
-
+using System.IO;
+using System.Text;
 
 namespace SoporteTest1.Controllers
 {
@@ -69,11 +70,40 @@ namespace SoporteTest1.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 ticket.OwnerID = User.Identity.GetUserId();
                 ticket.Date_added = DateTime.Now;
                 ticket.Estatus_ID = 1;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
+                var dummy = ticket.Id;
+                dummy.ToString();
+
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+
+                        var fileName = Path.GetFileName(file.FileName);
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append(dummy);
+                        sb.Append(fileName);
+                        var finalname = sb;
+                        var path = Path.Combine(Server.MapPath("~/Content/Uploads/"), finalname.ToString());
+                        file.SaveAs(path);
+
+                        Archivo arc = new Archivo();
+                        arc.Filename = finalname.ToString();
+                        arc.TicketId = ticket.Id;
+                        db.Archivos.Add(arc);
+                        db.SaveChanges();
+
+
+                    }
+                }
+
                 return RedirectToAction("Index");
             }
 
