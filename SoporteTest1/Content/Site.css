@@ -22,3 +22,28 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+
+/*Para Poner elegante las imagenes de los usuarios en tickets/details/ID   */
+
+div.img {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 180px;
+}
+
+div.img:hover {
+    border: 1px solid #777;
+}
+
+div.img img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}

@@ -74,12 +74,35 @@
             @Html.DisplayFor(model => model.Estatu.Estado)
         </dd>
 
+        @if (Model.Archivos.Count > 0)
+        {
+            <dt>Archivos adjuntos</dt>
+            <dd>
+                @foreach (var arc in Model.Archivos)
+                {
+                
+                                var fileFormat = arc.Filename.Substring(arc.Filename.Length - 3).ToLower();
+                                string[] imagenes = { "jpg", "png", "gif" };
+                    if (imagenes.Contains(fileFormat))
+                    {
+                        <div class="img">
+                            <a target="_blank" href="~/Content/Uploads/@arc.Filename">
+                                <img src="~/Content/Uploads/@arc.Filename" alt="@arc.Filename" width="300" height="200">
+                            </a>
+                        </div>
+                        //<img width="100px" height="100px" src="~/Content/Uploads/@arc.Filename">
+                    } else { 
+                        <a href="~/Content/Uploads/@arc.Filename">@arc.Filename</a>
+                    }
+                }
+            </dd>
+        }
+
     </dl>
 
-    @if(Model.Archivos.Count > 0) {
-        <span> Hay archivos!!</span>
-    }
 </div>
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
