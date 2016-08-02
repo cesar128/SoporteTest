@@ -251,8 +251,7 @@ namespace SoporteTest1.Controllers
         public ActionResult Rep2()
         {
 
-            var i = 0;
-            List<string> colores = new List<string>(); 
+            List<string> colores = new List<string>();
 
             colores.Add("ff3333");
             colores.Add("006699");
@@ -265,14 +264,38 @@ namespace SoporteTest1.Controllers
             colores.Add("593366");
             colores.Add("666633");
 
-            foreach (var a in db.rep_por_depto)
-            {
-                i++;
-            }
-
-            ViewBag.total = i;
             ViewBag.lista = colores;
             ViewBag.departamentos = db.rep_por_depto.ToList();
+
+            return View();
+        }
+
+        public ActionResult Rep3()
+        {
+
+
+            List<string> colores = new List<string>();
+
+            colores.Add("ff3333");
+            colores.Add("006699");
+            colores.Add("006600");
+            colores.Add("9900ff");
+            colores.Add("cc3399");
+            colores.Add("663300");
+            colores.Add("33cc33");
+            colores.Add("ff00ff");
+            colores.Add("593366");
+            colores.Add("666633");
+
+            rep_dept_ti rep = new rep_dept_ti();
+
+            ViewBag.sinasignar = db.Tickets.Where(a => a.DepartamentoPertenece == null).Count();
+
+            db.rep_dept_ti.Add(rep);
+
+
+            ViewBag.lista = colores;
+            ViewBag.departamentos = db.rep_dept_ti.ToList();
 
             return View();
         }

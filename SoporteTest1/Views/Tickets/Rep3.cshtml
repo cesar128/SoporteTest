@@ -1,0 +1,78 @@
+﻿@using System.Text;
+@{
+    ViewBag.Title = "Estadistica por departamentos de TI";
+}
+
+<h2>Estadistica por asignacion al depto. de ti</h2>
+
+<canvas id="skills" width="300" height="300"></canvas>
+<script type="text/javascript" src="/content/chart.js"></script>
+
+
+<script type="text/javascript">
+    var pieData = [
+        {
+            value: @ViewBag.sinasignar,
+            label: 'Sin asignar',
+            color: '#ffff99'
+        },
+
+
+     @{var a = 0;
+         StringBuilder builder = new StringBuilder();
+     }
+        @foreach (var b in ViewBag.departamentos)
+    {
+
+        builder.Append(",{value: ")
+        .Append(@ViewBag.departamentos[a].Cantidadrepti)
+        .Append(",label:'")
+        .Append(@ViewBag.departamentos[a].vdeptoti)
+        .Append("',color: '#")
+        .Append(@ViewBag.lista[a])
+        .Append("'}");
+
+        a++;
+    }
+        @{builder.Remove(0, 1);}
+            @Html.Raw(builder)
+
+    ];
+    var context = document.getElementById('skills').getContext('2d');
+    var skillsChart = new Chart(context).Pie(pieData);
+</script>
+
+<table style="border-spacing: 15px;">
+    <thead>
+        <tr>
+            <td>Color:</td>
+            <td>Departamento:</td>
+            <td>Cantidad de reportes:</td>
+        </tr>
+    </thead>
+    <tr>
+        <td style="background-color:#ffff99">&nbsp;&nbsp;&nbsp;</td>
+        <td>Sin Asignar:</td>
+        <td>@ViewBag.sinasignar</td>
+    </tr>
+
+    @{var d = 0;
+        StringBuilder builderb = new StringBuilder();
+    }
+    @foreach (var c in ViewBag.departamentos)
+    {
+
+        builderb.Append("<tr><td style = 'background-color:#")
+        .Append(@ViewBag.lista[d])
+        .Append("; '>&nbsp;&nbsp;&nbsp;</td><td>")
+        .Append(@ViewBag.departamentos[d].vdeptoti)
+        .Append(":</td><td>")
+        .Append(@ViewBag.departamentos[d].Cantidadrepti)
+        .Append("</td></tr>");
+
+        d++;
+    }
+
+    @Html.Raw(builderb)
+
+</table>
