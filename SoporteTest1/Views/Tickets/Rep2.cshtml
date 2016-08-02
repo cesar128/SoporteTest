@@ -1,0 +1,68 @@
+﻿@using System.Text;
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<canvas id="skills" width="300" height="300"></canvas>
+<script type="text/javascript" src="/content/chart.js"></script>
+
+
+<script type="text/javascript">
+    var pieData = [
+
+
+     @{var a = 0;
+        StringBuilder builder = new StringBuilder();
+     }
+        @foreach (var b in ViewBag.departamentos)
+    {
+
+        builder.Append(",{value: ")
+        .Append(@ViewBag.departamentos[a].cantidadrep)
+        .Append(",label:'")
+        .Append(@ViewBag.departamentos[a].departmnto)
+        .Append("',color: '#")
+        .Append(@ViewBag.lista[a])
+        .Append("'}");
+
+        a++;
+    }
+        @{builder.Remove(0, 1);}
+            @Html.Raw(builder)
+
+    ];
+    var context = document.getElementById('skills').getContext('2d');
+    var skillsChart = new Chart(context).Pie(pieData);
+</script>
+
+<table style="border-spacing: 15px;">
+    <thead>
+        <tr>
+            <td>Color:</td>
+            <td>Departamento:</td>
+            <td>Cantidad de reportes:</td>
+        </tr>
+    </thead>
+
+    @{var d = 0;
+        StringBuilder builderb = new StringBuilder();
+    }
+    @foreach (var c in ViewBag.departamentos)
+    {
+
+        builderb.Append("<tr><td style = 'background-color:#")
+        .Append(@ViewBag.lista[d])
+        .Append("; '>&nbsp;&nbsp;&nbsp;</td><td>")
+        .Append(@ViewBag.departamentos[d].departmnto)
+        .Append(":</td><td>")
+        .Append(@ViewBag.departamentos[d].cantidadrep)
+        .Append("</td></tr>");
+
+        d++;
+    }
+
+    @Html.Raw(builderb)
+
+</table>

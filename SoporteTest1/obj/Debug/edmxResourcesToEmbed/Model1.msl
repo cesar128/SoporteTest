@@ -112,5 +112,21 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="rep_por_depto">
+      <EntityTypeMapping TypeName="Model.rep_por_depto">
+        <MappingFragment StoreEntitySet="rep_por_depto">
+          <ScalarProperty Name="departmnto" ColumnName="depto" />
+          <ScalarProperty Name="cantidadrep" ColumnName="cantidad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rep_dept_ti">
+      <EntityTypeMapping TypeName="Model.rep_dept_ti">
+        <MappingFragment StoreEntitySet="rep_dept_ti">
+          <ScalarProperty Name="vdeptoti" ColumnName="deptoti" />
+          <ScalarProperty Name="Cantidadrepti" ColumnName="Cantidad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

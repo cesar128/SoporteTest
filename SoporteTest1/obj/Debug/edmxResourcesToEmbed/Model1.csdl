@@ -300,5 +300,21 @@
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="rep_por_depto" EntityType="Model.rep_por_depto" />
+    <EntitySet Name="rep_dept_ti" EntityType="Model.rep_dept_ti" />
   </EntityContainer>
+  <EntityType Name="rep_por_depto">
+    <Key>
+      <PropertyRef Name="departmnto" />
+    </Key>
+    <Property Name="cantidadrep" Type="Int32" />
+    <Property Name="departmnto" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="rep_dept_ti">
+    <Key>
+      <PropertyRef Name="vdeptoti" />
+    </Key>
+    <Property Name="Cantidadrepti" Type="Int32" />
+    <Property Name="vdeptoti" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

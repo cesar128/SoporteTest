@@ -35,5 +35,7 @@ namespace SoporteTest1
         public virtual DbSet<Estatu> Estatus { get; set; }
         public virtual DbSet<FollowTable> FollowTables { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
+        public virtual DbSet<rep_por_depto> rep_por_depto { get; set; }
+        public virtual DbSet<rep_dept_ti> rep_dept_ti { get; set; }
     }
 }

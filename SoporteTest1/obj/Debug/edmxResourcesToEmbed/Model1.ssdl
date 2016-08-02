@@ -103,6 +103,24 @@
     <Property Name="Estatus_ID" Type="int" Nullable="false" />
     <Property Name="DepartamentoPertenece" Type="int" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'aspnet-SoporteTest1-20160731123615.dbo.rep_dept_ti' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="rep_dept_ti">
+    <Key>
+      <PropertyRef Name="deptoti" />
+    </Key>
+    <Property Name="Cantidad" Type="int" />
+    <Property Name="deptoti" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'aspnet-SoporteTest1-20160731123615.dbo.rep_por_depto' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="rep_por_depto">
+    <Key>
+      <PropertyRef Name="depto" />
+    </Key>
+    <Property Name="cantidad" Type="int" />
+    <Property Name="depto" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <Association Name="FK_AspNetUsers_Depto">
     <End Role="Departamentos" Type="Self.Departamentos" Multiplicity="0..1" />
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
@@ -267,6 +285,18 @@
     <EntitySet Name="Estatus" EntityType="Self.Estatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FollowTables" EntityType="Self.FollowTables" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="rep_dept_ti" EntityType="Self.rep_dept_ti" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [rep_dept_ti].[Cantidad] AS [Cantidad], 
+    [rep_dept_ti].[deptoti] AS [deptoti]
+    FROM [dbo].[rep_dept_ti] AS [rep_dept_ti]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="rep_por_depto" EntityType="Self.rep_por_depto" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [rep_por_depto].[cantidad] AS [cantidad], 
+    [rep_por_depto].[depto] AS [depto]
+    FROM [dbo].[rep_por_depto] AS [rep_por_depto]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_AspNetUsers_Depto" Association="Self.FK_AspNetUsers_Depto">
       <End Role="Departamentos" EntitySet="Departamentos" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />

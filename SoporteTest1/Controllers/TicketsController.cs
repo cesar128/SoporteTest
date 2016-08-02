@@ -17,7 +17,6 @@ namespace SoporteTest1.Controllers
     public class TicketsController : Controller
     {
         private Entities db = new Entities();
-        private NewView nw = new NewView();
 
         // GET: Tickets
         public ActionResult Index()
@@ -251,7 +250,27 @@ namespace SoporteTest1.Controllers
         {
 
             var i = 0;
-            
+            List<string> colores = new List<string>(); 
+
+            colores.Add("ff3333");
+            colores.Add("006699");
+            colores.Add("006600");
+            colores.Add("9900ff");
+            colores.Add("cc3399");
+            colores.Add("663300");
+            colores.Add("33cc33");
+            colores.Add("ff00ff");
+            colores.Add("593366");
+            colores.Add("666633");
+
+            foreach (var a in db.rep_por_depto)
+            {
+                i++;
+            }
+
+            ViewBag.total = i;
+            ViewBag.lista = colores;
+            ViewBag.departamentos = db.rep_por_depto.ToList();
 
             return View();
         }

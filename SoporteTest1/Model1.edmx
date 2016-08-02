@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Archivos">
           <Key>
             <PropertyRef Name="Id" />
@@ -107,6 +107,24 @@
           <Property Name="Asig_id" Type="nvarchar" MaxLength="128" />
           <Property Name="Estatus_ID" Type="int" Nullable="false" />
           <Property Name="DepartamentoPertenece" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aspnet-SoporteTest1-20160731123615.dbo.rep_dept_ti' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="rep_dept_ti">
+          <Key>
+            <PropertyRef Name="deptoti" />
+          </Key>
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="deptoti" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aspnet-SoporteTest1-20160731123615.dbo.rep_por_depto' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="rep_por_depto">
+          <Key>
+            <PropertyRef Name="depto" />
+          </Key>
+          <Property Name="cantidad" Type="int" />
+          <Property Name="depto" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK_AspNetUsers_Depto">
           <End Role="Departamentos" Type="Self.Departamentos" Multiplicity="0..1" />
@@ -272,6 +290,18 @@
           <EntitySet Name="Estatus" EntityType="Self.Estatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowTables" EntityType="Self.FollowTables" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rep_dept_ti" EntityType="Self.rep_dept_ti" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [rep_dept_ti].[Cantidad] AS [Cantidad], 
+    [rep_dept_ti].[deptoti] AS [deptoti]
+    FROM [dbo].[rep_dept_ti] AS [rep_dept_ti]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="rep_por_depto" EntityType="Self.rep_por_depto" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [rep_por_depto].[cantidad] AS [cantidad], 
+    [rep_por_depto].[depto] AS [depto]
+    FROM [dbo].[rep_por_depto] AS [rep_por_depto]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AspNetUsers_Depto" Association="Self.FK_AspNetUsers_Depto">
             <End Role="Departamentos" EntitySet="Departamentos" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -321,8 +351,7 @@
             <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -626,7 +655,23 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="rep_por_depto" EntityType="Model.rep_por_depto" />
+          <EntitySet Name="rep_dept_ti" EntityType="Model.rep_dept_ti" />
         </EntityContainer>
+        <EntityType Name="rep_por_depto">
+          <Key>
+            <PropertyRef Name="departmnto" />
+          </Key>
+          <Property Name="cantidadrep" Type="Int32" />
+          <Property Name="departmnto" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="rep_dept_ti">
+          <Key>
+            <PropertyRef Name="vdeptoti" />
+          </Key>
+          <Property Name="Cantidadrepti" Type="Int32" />
+          <Property Name="vdeptoti" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -744,6 +789,22 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="rep_por_depto">
+            <EntityTypeMapping TypeName="Model.rep_por_depto">
+              <MappingFragment StoreEntitySet="rep_por_depto">
+                <ScalarProperty Name="departmnto" ColumnName="depto" />
+                <ScalarProperty Name="cantidadrep" ColumnName="cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rep_dept_ti">
+            <EntityTypeMapping TypeName="Model.rep_dept_ti">
+              <MappingFragment StoreEntitySet="rep_dept_ti">
+                <ScalarProperty Name="vdeptoti" ColumnName="deptoti" />
+                <ScalarProperty Name="Cantidadrepti" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -758,8 +819,8 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

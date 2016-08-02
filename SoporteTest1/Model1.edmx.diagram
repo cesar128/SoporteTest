@@ -26,6 +26,8 @@
         <AssociationConnector Association="Model.FK_Tickets_DeptoTi" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Tickets_Estatus" ManuallyRouted="false" />
         <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.rep_por_depto" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.rep_dept_ti" Width="1.5" PointX="2.875" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
