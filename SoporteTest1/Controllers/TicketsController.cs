@@ -168,8 +168,6 @@ namespace SoporteTest1.Controllers
         }
 
         // POST: Tickets/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -177,6 +175,10 @@ namespace SoporteTest1.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(ticket.Estatus_ID == 3)  //Si el estatus es cancelado/cerrado pone la fecha en el campo.
+                {
+                    ticket.Date_solved = DateTime.Now;
+                }
 
                 try
                 {
