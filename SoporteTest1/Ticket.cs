@@ -11,7 +11,8 @@ namespace SoporteTest1
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class Ticket
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,10 +22,13 @@ namespace SoporteTest1
         }
     
         public int Id { get; set; }
+        [DisplayName("ID Propietario")]
         public string OwnerID { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
+        [DisplayName("Fecha Creado")]
         public System.DateTime Date_added { get; set; }
+        [DisplayName("Fecha Resuelto")]
         public Nullable<System.DateTime> Date_solved { get; set; }
         public string Asig_id { get; set; }
         public int Estatus_ID { get; set; }
@@ -32,9 +36,13 @@ namespace SoporteTest1
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Archivo> Archivos { get; set; }
+        [DisplayName("Asignado A:")]
         public virtual AspNetUser AspNetUser { get; set; }
+        [DisplayName("Propietario")]
         public virtual AspNetUser AspNetUser1 { get; set; }
+        [DisplayName("Depto de TI")]
         public virtual DepartamentoTI DepartamentoTI { get; set; }
+        [DisplayName("Estado")]
         public virtual Estatu Estatu { get; set; }
     }
 }
