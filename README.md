@@ -7,7 +7,7 @@ Cuentas creadas:
 - cliente4@cliente.com
 - cliente5@cliente.com
 
--admin@admin.com
+- admin@admin.com
 
 Todas con password "Qwe123!"
 
