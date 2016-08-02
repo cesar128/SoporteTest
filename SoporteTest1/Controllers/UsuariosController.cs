@@ -22,6 +22,7 @@ namespace SoporteTest1.Controllers
 
             //var hi = db.FollowTables.Where(a => a.Who == User.Identity.Name).Select(a => a.Follow).ToList();
             var uid = User.Identity.GetUserId();
+            ViewBag.uid = uid;
             ViewBag.Following = db.FollowTables.Where(a => a.Who == uid ).Select(a=>a.Follow).ToList();
 
             return View(aspNetUserss);

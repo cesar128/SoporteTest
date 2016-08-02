@@ -25,21 +25,25 @@ namespace SoporteTest1.Controllers
 
             if (Request.IsAuthenticated)
             {
-                var uid = User.Identity.GetUserId();
-                //tickets = db.Tickets.Where(t => t.OwnerID == uid).Include(t => t.AspNetUser).Include(t => t.AspNetUser1).Include(t => t.DepartamentoTI).Include(t => t.Estatu);
-
-                tickets = db.Tickets.Where(a => a.OwnerID == uid).ToList();
-                var p = db.FollowTables.Where(a => a.Who == uid);
-                foreach (var item in p)
+                if (!User.IsInRole("Admin"))
                 {
-                    var mylist = db.Tickets.Where(a => a.OwnerID == item.Follow);
-                    foreach (var u in mylist)
+                    var uid = User.Identity.GetUserId();
+                    //tickets = db.Tickets.Where(t => t.OwnerID == uid).Include(t => t.AspNetUser).Include(t => t.AspNetUser1).Include(t => t.DepartamentoTI).Include(t => t.Estatu);
+
+                    tickets = db.Tickets.Where(a => a.OwnerID == uid).ToList();
+                    var p = db.FollowTables.Where(a => a.Who == uid);
+                    foreach (var item in p)
                     {
-                        tickets.Add(u);
+                        var mylist = db.Tickets.Where(a => a.OwnerID == item.Follow);
+                        foreach (var u in mylist)
+                        {
+                            tickets.Add(u);
+                        }
                     }
                 }
+                else { tickets = db.Tickets.ToList(); }
 
-                
+
             } else {
                 //tickets = db.Tickets.Include(t => t.AspNetUser).Include(t => t.AspNetUser1).Include(t => t.DepartamentoTI).Include(t => t.Estatu);
                 tickets = db.Tickets.ToList();
@@ -50,6 +54,7 @@ namespace SoporteTest1.Controllers
         }
 
         // GET: Tickets/Details/5
+        // Para dar los detalles de los tickest
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -166,7 +171,7 @@ namespace SoporteTest1.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,OwnerID,Titulo,Descripcion,Asig_id,Estatus_ID,DepartamentoPertenece")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,OwnerID,Date_added,Titulo,Descripcion,Asig_id,Estatus_ID,DepartamentoPertenece")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -174,8 +179,8 @@ namespace SoporteTest1.Controllers
                 try
                 {
                     //ticket.Date_added = System.DateTime.Now;
-                    DateTime dt = Convert.ToDateTime(ticket.Date_added);
-                    ticket.Date_added = null;
+                    //DateTime dt = Convert.ToDateTime(ticket.Date_added);
+                    //ticket.Date_added = dt;
                     db.Entry(ticket).State = EntityState.Modified;
                     db.SaveChanges();
                 }

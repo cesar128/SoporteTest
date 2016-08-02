@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SoporteTest1;
+using Microsoft.AspNet.Identity;
 
 namespace SoporteTest1.Content
 {
@@ -18,25 +19,13 @@ namespace SoporteTest1.Content
         public ActionResult Index()
         {
             var followTables = db.FollowTables.Include(f => f.AspNetUser).Include(f => f.AspNetUser1);
-            return View(followTables.ToList());
+            return RedirectToAction("Index", "Usuarios");
+            //return View(followTables.ToList());
         }
 
-        // GET: Follow/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            FollowTable followTable = db.FollowTables.Find(id);
-            if (followTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(followTable);
-        }
 
         // GET: Follow/Create
+        //Para crear Relaciones manuales
         public ActionResult Create(int? id)
         {
             ViewBag.Follow = new SelectList(db.AspNetUsers, "Id", "Email");
@@ -45,8 +34,7 @@ namespace SoporteTest1.Content
         }
 
         // POST: Follow/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Para Crear una relacion de seguir al usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Who,Follow")] FollowTable followTable)
@@ -63,65 +51,24 @@ namespace SoporteTest1.Content
             return View(followTable);
         }
 
-        // GET: Follow/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            FollowTable followTable = db.FollowTables.Find(id);
-            if (followTable == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Follow = new SelectList(db.AspNetUsers, "Id", "Email", followTable.Follow);
-            ViewBag.Who = new SelectList(db.AspNetUsers, "Id", "Email", followTable.Who);
-            return View(followTable);
-        }
 
-        // POST: Follow/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+
+        // POST: Follow/Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Who,Follow")] FollowTable followTable)
+        public ActionResult Delete([Bind(Include = "Id,Who,Follow")] FollowTable followTablee)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(followTable).State = EntityState.Modified;
+                //var get_id = db.FollowTables.Where(a => a.Follow == followTablee.Follow && a.Who == followTablee.Who).Select(e=>e.ID);
+                var get_id = db.FollowTables.First(a => a.Follow == followTablee.Follow && a.Who == followTablee.Who).ID;
+                FollowTable followTable = db.FollowTables.Find(get_id);
+                db.FollowTables.Remove(followTable);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Usuarios");
             }
-            ViewBag.Follow = new SelectList(db.AspNetUsers, "Id", "Email", followTable.Follow);
-            ViewBag.Who = new SelectList(db.AspNetUsers, "Id", "Email", followTable.Who);
-            return View(followTable);
-        }
-
-        // GET: Follow/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            FollowTable followTable = db.FollowTables.Find(id);
-            if (followTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(followTable);
-        }
-
-        // POST: Follow/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            FollowTable followTable = db.FollowTables.Find(id);
-            db.FollowTables.Remove(followTable);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Usuarios");
         }
 
         protected override void Dispose(bool disposing)
