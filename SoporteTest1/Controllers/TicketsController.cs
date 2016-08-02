@@ -17,6 +17,7 @@ namespace SoporteTest1.Controllers
     public class TicketsController : Controller
     {
         private Entities db = new Entities();
+        private NewView nw = new NewView();
 
         // GET: Tickets
         public ActionResult Index()
@@ -54,7 +55,7 @@ namespace SoporteTest1.Controllers
         }
 
         // GET: Tickets/Details/5
-        // Para dar los detalles de los tickest
+        // Para dar los detalles de los tickets
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -70,6 +71,7 @@ namespace SoporteTest1.Controllers
         }
 
         // GET: Tickets/Create
+        //Crear Ticket
         [Authorize]
         public ActionResult Create()
         {
@@ -81,8 +83,7 @@ namespace SoporteTest1.Controllers
         }
 
         // POST: Tickets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Accion del formulario post
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -139,6 +140,8 @@ namespace SoporteTest1.Controllers
         }
 
         // GET: Tickets/Edit/5
+        // Editar cierto ticket
+        //   ----
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -178,9 +181,6 @@ namespace SoporteTest1.Controllers
 
                 try
                 {
-                    //ticket.Date_added = System.DateTime.Now;
-                    //DateTime dt = Convert.ToDateTime(ticket.Date_added);
-                    //ticket.Date_added = dt;
                     db.Entry(ticket).State = EntityState.Modified;
                     db.SaveChanges();
                 }
@@ -236,13 +236,22 @@ namespace SoporteTest1.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Tickets
+        // Para la vista de los reportes
         public ActionResult Rep()
         {
 
             ViewBag.Pendientes = db.Tickets.Count(c => c.Estatus_ID == 1);
             ViewBag.EnProceso = db.Tickets.Count(c => c.Estatus_ID == 2);
             ViewBag.Cerrados = db.Tickets.Count(c => c.Estatus_ID == 3);
+
+            return View();
+        }
+
+        public ActionResult Rep2()
+        {
+
+            var i = 0;
+            
 
             return View();
         }
