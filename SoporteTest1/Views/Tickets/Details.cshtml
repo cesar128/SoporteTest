@@ -4,6 +4,12 @@
     ViewBag.Title = "Detalles";
 }
 
+@if (ViewBag.mensaje != null)
+{
+    <div class="alert alert-danger">
+        <span>@ViewBag.mensaje</span>
+    </div>
+}
 <h2>Detalles</h2>
 
 <div>

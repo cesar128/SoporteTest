@@ -55,7 +55,7 @@ namespace SoporteTest1.Controllers
 
         // GET: Tickets/Details/5
         // Para dar los detalles de los tickets
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id,string msg)
         {
             if (id == null)
             {
@@ -66,6 +66,15 @@ namespace SoporteTest1.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (msg != null)
+            {
+                if(msg == "1")
+                ViewBag.mensaje = "El ticket esta cerrado, no se puede editar. Por favor abrir otro nuevo.";
+            }
+
+
+
             return View(ticket);
         }
 
@@ -142,7 +151,7 @@ namespace SoporteTest1.Controllers
         // Editar cierto ticket
         //   ----
         [Authorize]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id,string msg)
         {
             if (id == null)
             {
@@ -153,10 +162,23 @@ namespace SoporteTest1.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (msg != null)
+            { ViewBag.mensaje = "<p>El ticket esta cerrado, no se puede editar.</p><p>Por favor abrir otro nuevo.</p>"; }
+
+
+
             ViewBag.Asig_id = new SelectList(db.AspNetUsers, "Id", "Email", ticket.Asig_id);
             ViewBag.OwnerID = new SelectList(db.AspNetUsers, "Id", "Email", ticket.OwnerID);
             ViewBag.DepartamentoPertenece = new SelectList(db.DepartamentoTIs, "Id", "DeptoTI", ticket.DepartamentoPertenece);
             ViewBag.Estatus_ID = new SelectList(db.Estatus, "Id", "Estado", ticket.Estatus_ID);
+
+            //Si el status del ticket es cerrado que redireccione a detalles no edit.
+            if (ticket.Estatus_ID == 3)
+            {
+                return RedirectToAction("Details", new { id = id.ToString(), msg = 1 });
+            }
+         
 
             //Si no es dueno del ticket o admin, no puede editarlo, redirigir a Details del mismo ticket
             if (ticket.OwnerID == User.Identity.GetUserId() || User.IsInRole("Admin"))
@@ -253,7 +275,7 @@ namespace SoporteTest1.Controllers
 
             List<string> colores = new List<string>();
 
-            colores.Add("ff3333");
+            colores.Add("666633");
             colores.Add("006699");
             colores.Add("006600");
             colores.Add("9900ff");
@@ -262,7 +284,7 @@ namespace SoporteTest1.Controllers
             colores.Add("33cc33");
             colores.Add("ff00ff");
             colores.Add("593366");
-            colores.Add("666633");
+            colores.Add("ff3333");
 
             ViewBag.lista = colores;
             ViewBag.departamentos = db.rep_por_depto.ToList();
@@ -276,7 +298,7 @@ namespace SoporteTest1.Controllers
 
             List<string> colores = new List<string>();
 
-            colores.Add("ff3333");
+            colores.Add("666633");
             colores.Add("006699");
             colores.Add("006600");
             colores.Add("9900ff");
@@ -285,7 +307,7 @@ namespace SoporteTest1.Controllers
             colores.Add("33cc33");
             colores.Add("ff00ff");
             colores.Add("593366");
-            colores.Add("666633");
+            colores.Add("ff3333");
 
             rep_dept_ti rep = new rep_dept_ti();
 
