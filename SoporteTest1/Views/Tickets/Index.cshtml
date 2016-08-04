@@ -74,6 +74,19 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#tickets').DataTable();
+        $('#tickets').DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros.",
+                "search": "Buscar:",
+                "info": "_TOTAL_ Tickets en total.",
+                "paginate": {
+                        "first": "|<",
+                        "last": ">|",
+                        "next": ">>",
+                        "previous": "<<"
+                }
+            }
+        });
     });
 </script>
